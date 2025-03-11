@@ -30,16 +30,19 @@ const DocumentActions = ({ documentType, resumeData, coverLetterData }: Document
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const fileName = `${documentType === 'resume' ? 'Resume' : 'Cover_Letter'}_${new Date().toISOString().split('T')[0]}`;
-    const success = downloadPdf(documentType, fileName);
     
-    if (success) {
-      toast({
-        title: `Downloaded ${documentType.replace('-', ' ')}`,
-        description: `Your ${documentType.replace('-', ' ')} has been downloaded as PDF.`,
-      });
-    }
+    // Show a loading indicator
+    toast({
+      title: "Processing",
+      description: "Preparing your document for download...",
+    });
+    
+    // Call the async function
+    const success = await downloadPdf(documentType, fileName);
+    
+    // The success toast is now handled in the downloadPdf function
   };
   
   const handleCopy = async () => {

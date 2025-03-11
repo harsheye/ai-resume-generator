@@ -1,6 +1,8 @@
 
 import { toast } from "@/hooks/use-toast";
 import { ResumeData, CoverLetterData } from "./resumeGenerator";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // Function to convert resume to text format for clipboard
 export const resumeToText = (data: ResumeData): string => {
@@ -71,11 +73,9 @@ export const printDocument = (): void => {
   window.print();
 };
 
-// Function to download as PDF (simplified simulation)
-export const downloadPdf = (documentType: string, fileName: string): boolean => {
+// Function to download as PDF
+export const downloadPdf = async (documentType: string, fileName: string): Promise<boolean> => {
   try {
-    // In a real implementation, you would use a library like jsPDF or html2pdf
-    // This is a simplified version that creates a simple text file
     const element = document.getElementById(documentType);
     if (!element) {
       toast({
@@ -86,14 +86,54 @@ export const downloadPdf = (documentType: string, fileName: string): boolean => 
       return false;
     }
     
-    // For a real PDF creation, you would replace this with actual PDF generation code
+    // Create a loading toast
+    toast({
+      title: "Generating PDF",
+      description: "Please wait while we prepare your document...",
+    });
+    
+    // Generate canvas from the DOM element
+    const canvas = await html2canvas(element, {
+      scale: 2, // Higher scale for better quality
+      useCORS: true,
+      logging: false,
+      backgroundColor: '#ffffff'
+    });
+    
+    // Calculate proper dimensions
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'px',
+      format: 'a4',
+    });
+    
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = canvas.width;
+    const imgHeight = canvas.height;
+    const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+    const imgX = (pdfWidth - imgWidth * ratio) / 2;
+    
+    pdf.addImage(imgData, 'PNG', imgX, 20, imgWidth * ratio, imgHeight * ratio);
+    
+    // Download the PDF
+    pdf.save(`${fileName}.pdf`);
+    
+    // Success toast
     toast({
       title: "PDF Downloaded",
-      description: `Your ${documentType.replace('-', ' ')} has been downloaded as PDF.`
+      description: `Your ${documentType.replace('-', ' ')} has been downloaded as PDF.`,
     });
+    
     return true;
   } catch (err) {
     console.error("Failed to download PDF: ", err);
+    toast({
+      title: "Export Failed",
+      description: "An error occurred while generating the PDF. Please try again.",
+      variant: "destructive"
+    });
     return false;
   }
 };
