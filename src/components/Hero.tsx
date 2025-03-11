@@ -19,12 +19,12 @@ const Hero = () => {
             <div className="inline-block">
               <div className="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium bg-primary/10 text-primary gap-1.5">
                 <Zap className="w-3.5 h-3.5" />
-                <span>AI-Powered Resume & Cover Letter Generator</span>
+                <span>AI-Powered Document Crafting</span>
               </div>
             </div>
             
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Get Hired Faster with <span className="text-gradient">AI-Optimized</span> Job Documents
+              Forge Your Career with <span className="text-gradient">AI-Engineered</span> Documents
             </h1>
             
             <p className="text-xl text-muted-foreground mx-auto max-w-2xl">
@@ -34,7 +34,7 @@ const Hero = () => {
             <div className="flex flex-wrap justify-center gap-3 pt-4">
               <Button asChild size="lg" className="rounded-full px-8 h-12">
                 <Link to="/generator">
-                  Create Your Resume
+                  Craft Your Resume
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

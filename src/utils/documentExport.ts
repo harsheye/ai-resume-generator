@@ -1,4 +1,3 @@
-
 import { toast } from "@/hooks/use-toast";
 import { ResumeData, CoverLetterData } from "./resumeGenerator";
 import jsPDF from 'jspdf';
@@ -102,9 +101,11 @@ export const downloadPdf = async (documentType: string, fileName: string): Promi
     
     // Calculate proper dimensions
     const imgData = canvas.toDataURL('image/png');
+    
+    // Create PDF with proper size
     const pdf = new jsPDF({
       orientation: 'portrait',
-      unit: 'px',
+      unit: 'mm',
       format: 'a4',
     });
     

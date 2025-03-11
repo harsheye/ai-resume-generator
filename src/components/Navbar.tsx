@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <FileText className="w-7 h-7 text-primary" />
-            <span className="font-medium text-xl">ResumeAI</span>
+            <span className="font-medium text-xl">CareerForge</span>
           </Link>
 
           {/* Desktop Navigation */}

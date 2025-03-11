@@ -19,11 +19,12 @@ import {
   coverLetterToText 
 } from '@/utils/documentExport';
 import { useNavigate } from 'react-router-dom';
+import { ResumeData, CoverLetterData } from '@/utils/resumeGenerator';
 
 interface DocumentActionsProps {
   documentType: 'resume' | 'cover-letter';
-  resumeData?: any;
-  coverLetterData?: any;
+  resumeData?: ResumeData;
+  coverLetterData?: CoverLetterData;
 }
 
 const DocumentActions = ({ documentType, resumeData, coverLetterData }: DocumentActionsProps) => {
@@ -40,9 +41,8 @@ const DocumentActions = ({ documentType, resumeData, coverLetterData }: Document
     });
     
     // Call the async function
-    const success = await downloadPdf(documentType, fileName);
-    
-    // The success toast is now handled in the downloadPdf function
+    await downloadPdf(documentType, fileName);
+    // Success toast is handled in the downloadPdf function
   };
   
   const handleCopy = async () => {
@@ -102,7 +102,6 @@ const DocumentActions = ({ documentType, resumeData, coverLetterData }: Document
   };
   
   const handleEdit = () => {
-    // In a real app, this would open a document editor
     toast({
       title: `Editing ${documentType.replace('-', ' ')}`,
       description: `Edit mode activated for your ${documentType.replace('-', ' ')}.`,

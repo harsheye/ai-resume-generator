@@ -13,10 +13,10 @@ const Footer = () => {
           <div className="md:col-span-1 space-y-4">
             <Link to="/" className="flex items-center gap-2">
               <FileText className="w-6 h-6 text-primary" />
-              <span className="font-medium text-lg">ResumeAI</span>
+              <span className="font-medium text-lg">CareerForge</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              AI-powered resume and cover letter generator. Create professional job documents in seconds.
+              AI-powered resume and cover letter generator. Craft professional, ATS-optimized job documents in seconds.
             </p>
             <div className="flex space-x-4 pt-2">
               <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
@@ -115,7 +115,7 @@ const Footer = () => {
         
         <div className="border-t border-gray-200/20 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} ResumeAI. All rights reserved.
+            &copy; {currentYear} CareerForge. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">
