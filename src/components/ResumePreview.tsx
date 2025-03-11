@@ -58,7 +58,7 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
           <Card className="glass-card p-6 md:p-8 overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Preview Section */}
-              <div className="md:col-span-2 bg-white rounded-lg shadow-md p-8 min-h-[700px]">
+              <div className="md:col-span-2 bg-white rounded-lg shadow-md p-8 min-h-[700px]" id="resume">
                 <div className="space-y-6">
                   <div className="text-center pb-4 border-b border-gray-200">
                     <h1 className="text-3xl font-bold text-gray-800">{resumeData.name}</h1>
@@ -145,7 +145,11 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                   </div>
                 </div>
 
-                <DocumentActions documentType="resume" />
+                <DocumentActions 
+                  documentType="resume" 
+                  resumeData={resumeData}
+                  coverLetterData={coverLetterData}
+                />
               </div>
             </div>
           </Card>
@@ -156,7 +160,7 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
           <Card className="glass-card p-6 md:p-8 overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Preview Section */}
-              <div className="md:col-span-2 bg-white rounded-lg shadow-md p-8 min-h-[700px]">
+              <div className="md:col-span-2 bg-white rounded-lg shadow-md p-8 min-h-[700px]" id="cover-letter">
                 <div className="space-y-6">
                   <div className="text-center pb-6">
                     <h1 className="text-2xl font-bold text-gray-800">{coverLetterData.name}</h1>
@@ -207,7 +211,11 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                   </div>
                 </div>
 
-                <DocumentActions documentType="cover-letter" />
+                <DocumentActions 
+                  documentType="cover-letter" 
+                  resumeData={resumeData}
+                  coverLetterData={coverLetterData}
+                />
               </div>
             </div>
           </Card>
