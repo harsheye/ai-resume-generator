@@ -63,42 +63,42 @@ const Templates = () => {
     {
       title: "Modern Professional",
       description: "Clean, minimal design perfect for corporate roles",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop",
       isPremium: false,
       rating: 4.8
     },
     {
       title: "Creative Portfolio",
       description: "Stand out with a bold, creative layout",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1517111084527-6e15e441c9c3?q=80&w=800&auto=format&fit=crop",
       isPremium: true,
       rating: 4.9
     },
     {
       title: "Executive Suite",
       description: "Elegant template for senior management positions",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1505461560534-00a400be5a41?q=80&w=800&auto=format&fit=crop",
       isPremium: true,
       rating: 4.7
     },
     {
       title: "Tech Specialist",
       description: "Highlight your technical skills and projects",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?q=80&w=800&auto=format&fit=crop",
       isPremium: false,
       rating: 4.5
     },
     {
       title: "Academic CV",
       description: "Ideal for researchers and academic positions",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1519834022362-8ec9221d37e9?q=80&w=800&auto=format&fit=crop",
       isPremium: true,
       rating: 4.6
     },
     {
       title: "Entry Level",
       description: "Perfect for recent graduates and first-time job seekers",
-      image: "/placeholder.svg",
+      image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop",
       isPremium: false,
       rating: 4.4
     }
