@@ -1,3 +1,4 @@
+
 // Resume generation with user input
 
 export interface ExperienceEntry {
@@ -345,7 +346,7 @@ const extractKeywords = (jobDescription: string): string[] => {
   
   // Check if job title contains any of the category keywords
   for (const [category, keywords] of Object.entries(defaultKeywords)) {
-    if (jobTitle.toLowerCase().includes(category.toLowerCase())) {
+    if (jobTitle && jobTitle.toLowerCase().includes(category.toLowerCase())) {
       return [...matchedKeywords, ...keywords];
     }
   }
@@ -499,6 +500,11 @@ const generateBulletPoints = (
     if (!bullets.includes(bullet)) {
       bullets.push(bullet);
     }
+    
+    // Safeguard against infinite loops
+    if (bullets.length === selectedTemplates.length) {
+      break;
+    }
   }
   
   return bullets;
@@ -568,3 +574,4 @@ const generateStrengthFromJobDescription = (jobDescription: string): string => {
   const randomIndex = Math.floor(Math.random() * strengths.length);
   return strengths[randomIndex];
 };
+
