@@ -1,4 +1,3 @@
-
 // Resume generation with user input
 
 export interface ExperienceEntry {
@@ -85,7 +84,7 @@ export const generateResume = (
   }
   
   // Extract keywords from job description to use in the mock resume
-  const keywordsFromJob = extractKeywords(jobDescription);
+  const keywordsFromJob = extractKeywords(jobDescription, jobTitle);
   const yearsOfExperience = estimateYearsRequired(jobDescription);
   const relevantSkills = generateRelevantSkills(jobDescription, keywordsFromJob);
   
@@ -307,7 +306,7 @@ export const generateCoverLetter = (
 };
 
 // Extract keywords from job description
-const extractKeywords = (jobDescription: string): string[] => {
+const extractKeywords = (jobDescription: string, jobTitle?: string): string[] => {
   // Common skills and qualities to look for
   const commonKeywords = [
     'communication', 'leadership', 'teamwork', 'problem-solving', 'analytical',
@@ -574,4 +573,3 @@ const generateStrengthFromJobDescription = (jobDescription: string): string => {
   const randomIndex = Math.floor(Math.random() * strengths.length);
   return strengths[randomIndex];
 };
-
