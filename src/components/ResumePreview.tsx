@@ -38,28 +38,31 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
               {/* Preview Section */}
               <div className="md:col-span-2 bg-white rounded-lg shadow-md p-8 min-h-[700px]" id="resume">
                 <div className="space-y-6">
-                  <div className="text-center pb-4 border-b border-gray-200">
-                    <h1 className="text-3xl font-bold text-gray-800">{resumeData.name}</h1>
-                    <p className="text-primary font-medium">{resumeData.jobTitle}</p>
-                    <div className="flex justify-center gap-3 mt-2 text-sm text-gray-600">
+                  {/* Header Section */}
+                  <div className="border-b border-gray-200 pb-4">
+                    <h1 className="text-2xl font-bold text-gray-800">{resumeData.name}</h1>
+                    <p className="text-primary font-medium mt-1">{resumeData.jobTitle}</p>
+                    <div className="flex flex-wrap gap-3 mt-2 text-sm text-gray-600">
                       <span>{resumeData.email}</span>
-                      <span>•</span>
+                      <span className="hidden md:inline">•</span>
                       <span>{resumeData.phone}</span>
                     </div>
                   </div>
 
+                  {/* Professional Summary - Important for ATS */}
                   <div>
-                    <h2 className="text-lg font-bold text-gray-800 mb-2">Professional Summary</h2>
-                    <p className="text-gray-700 text-sm">{resumeData.summary}</p>
+                    <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider mb-2">Professional Summary</h2>
+                    <p className="text-gray-700 text-sm leading-relaxed">{resumeData.summary}</p>
                   </div>
 
+                  {/* Skills Section - Critical for ATS keyword matching */}
                   <div>
-                    <h2 className="text-lg font-bold text-gray-800 mb-2">Skills</h2>
+                    <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider mb-2">Core Skills</h2>
                     <div className="flex flex-wrap gap-2">
                       {resumeData.skills.map((skill, index) => (
                         <span 
                           key={index} 
-                          className="bg-primary/10 text-primary text-xs py-1 px-2 rounded-full"
+                          className="bg-gray-100 text-gray-800 text-xs py-1 px-2 rounded"
                         >
                           {skill}
                         </span>
@@ -67,22 +70,22 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                     </div>
                   </div>
 
+                  {/* Work Experience - Chronological format preferred by ATS */}
                   <div>
-                    <h2 className="text-lg font-bold text-gray-800 mb-3">Experience</h2>
+                    <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider mb-3">Professional Experience</h2>
                     <div className="space-y-4">
                       {resumeData.experience.map((exp, index) => (
-                        <div key={index} className="border-l-2 border-primary pl-4 pb-2">
-                          <div className="flex justify-between items-start">
+                        <div key={index} className="pb-2">
+                          <div className="flex flex-col md:flex-row justify-between items-start">
                             <div>
                               <h3 className="font-bold text-gray-800">{exp.title}</h3>
                               <p className="text-sm text-gray-600">{exp.company}</p>
                             </div>
-                            <span className="text-xs text-gray-500">{exp.date}</span>
+                            <span className="text-xs text-gray-500 mt-1 md:mt-0">{exp.date}</span>
                           </div>
-                          <ul className="mt-2 space-y-1">
+                          <ul className="mt-2 space-y-1 ml-4">
                             {exp.description.map((desc, i) => (
-                              <li key={i} className="text-sm text-gray-700 flex gap-2">
-                                <span className="text-primary flex-shrink-0">•</span>
+                              <li key={i} className="text-sm text-gray-700 list-disc ml-1">
                                 <span>{desc}</span>
                               </li>
                             ))}
@@ -92,16 +95,17 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                     </div>
                   </div>
 
+                  {/* Education Section */}
                   <div>
-                    <h2 className="text-lg font-bold text-gray-800 mb-3">Education</h2>
+                    <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider mb-3">Education</h2>
                     <div className="space-y-3">
                       {resumeData.education.map((edu, index) => (
-                        <div key={index} className="flex justify-between">
+                        <div key={index} className="flex flex-col md:flex-row justify-between">
                           <div>
                             <h3 className="font-bold text-gray-800">{edu.degree}</h3>
                             <p className="text-sm text-gray-600">{edu.school}</p>
                           </div>
-                          <span className="text-xs text-gray-500">{edu.date}</span>
+                          <span className="text-xs text-gray-500 mt-1 md:mt-0">{edu.date}</span>
                         </div>
                       ))}
                     </div>
@@ -110,26 +114,25 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                   {/* Projects Section - Only show if projects exist */}
                   {resumeData.projects && resumeData.projects.length > 0 && (
                     <div>
-                      <h2 className="text-lg font-bold text-gray-800 mb-3">Projects</h2>
+                      <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider mb-3">Relevant Projects</h2>
                       <div className="space-y-4">
                         {resumeData.projects.map((project, index) => (
-                          <div key={index} className="border-l-2 border-primary pl-4 pb-2">
+                          <div key={index} className="pb-2">
                             <div className="flex justify-between items-start">
-                              <div>
-                                <h3 className="font-bold text-gray-800">{project.title}</h3>
-                                <p className="text-sm text-gray-700">{project.description}</p>
-                              </div>
+                              <h3 className="font-bold text-gray-800">{project.title}</h3>
                               {project.link && (
-                                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline">
+                                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline">
                                   View Project
                                 </a>
                               )}
                             </div>
+                            <p className="text-sm text-gray-700 mt-1">{project.description}</p>
                             {project.technologies.length > 0 && (
                               <div className="flex flex-wrap gap-1 mt-2">
+                                <span className="text-xs text-gray-600 font-medium">Technologies:</span>
                                 {project.technologies.map((tech, i) => (
-                                  <span key={i} className="bg-gray-100 text-gray-600 text-xs py-0.5 px-2 rounded-full">
-                                    {tech}
+                                  <span key={i} className="text-xs text-gray-600">
+                                    {i === project.technologies.length - 1 ? tech : `${tech},`}
                                   </span>
                                 ))}
                               </div>
@@ -143,15 +146,14 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                   {/* Achievements Section - Only show if achievements exist */}
                   {resumeData.achievements && resumeData.achievements.length > 0 && (
                     <div>
-                      <h2 className="text-lg font-bold text-gray-800 mb-3">Achievements</h2>
-                      <div className="space-y-3">
+                      <h2 className="text-base font-bold text-gray-800 uppercase tracking-wider mb-3">Key Achievements</h2>
+                      <ul className="space-y-2 ml-4">
                         {resumeData.achievements.map((achievement, index) => (
-                          <div key={index} className="border-l-2 border-primary pl-4 pb-2">
-                            <h3 className="font-bold text-gray-800">{achievement.title}</h3>
-                            <p className="text-sm text-gray-700">{achievement.description}</p>
-                          </div>
+                          <li key={index} className="text-sm text-gray-700 list-disc ml-1">
+                            <span className="font-medium">{achievement.title}:</span> {achievement.description}
+                          </li>
                         ))}
-                      </div>
+                      </ul>
                     </div>
                   )}
                 </div>
