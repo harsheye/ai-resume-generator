@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ResumePreview from '@/components/ResumePreview';
 import { LoadingAnimation } from '@/components/LoadingAnimation';
-import { generateResume, generateCoverLetter, ResumeData, CoverLetterData } from '@/utils/resumeGenerator';
+import { generateResume, generateCoverLetter, ResumeData, CoverLetterData, UserInputData } from '@/utils/resumeGenerator';
 
 const Resume = () => {
   const navigate = useNavigate();
@@ -17,8 +17,19 @@ const Resume = () => {
     // Get data from session storage
     const jobTitle = sessionStorage.getItem('jobTitle');
     const jobDescription = sessionStorage.getItem('jobDescription');
+    const userDataString = sessionStorage.getItem('userData');
+    
+    // Parse user data if available
+    let userData: UserInputData | undefined;
+    if (userDataString) {
+      try {
+        userData = JSON.parse(userDataString);
+      } catch (e) {
+        console.error('Error parsing user data:', e);
+      }
+    }
 
-    // If no data, redirect to generator page
+    // If no job data, redirect to generator page
     if (!jobTitle || !jobDescription) {
       navigate('/generator');
       return;
@@ -26,9 +37,14 @@ const Resume = () => {
 
     // Simulate API call delay
     setTimeout(() => {
-      // Generate resume and cover letter
-      const resumeData = generateResume(jobTitle, jobDescription);
-      const coverLetterData = generateCoverLetter(jobTitle, jobDescription, 'ABC Company');
+      // Generate resume and cover letter (with user data if available)
+      const resumeData = generateResume(jobTitle, jobDescription, userData);
+      const coverLetterData = generateCoverLetter(
+        jobTitle, 
+        jobDescription, 
+        'ABC Company', 
+        userData?.personalInfo.name
+      );
       
       setResumeData(resumeData);
       setCoverLetterData(coverLetterData);

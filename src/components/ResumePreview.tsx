@@ -4,33 +4,11 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, FileType, CheckCircle2 } from 'lucide-react';
 import DocumentActions from './DocumentActions';
+import { ResumeData, CoverLetterData } from '@/utils/resumeGenerator';
 
 interface ResumePreviewProps {
-  resumeData: {
-    jobTitle: string;
-    name: string;
-    email: string;
-    phone: string;
-    summary: string;
-    skills: string[];
-    experience: Array<{
-      title: string;
-      company: string;
-      date: string;
-      description: string[];
-    }>;
-    education: Array<{
-      degree: string;
-      school: string;
-      date: string;
-    }>;
-  };
-  coverLetterData: {
-    name: string;
-    jobTitle: string;
-    company: string;
-    paragraphs: string[];
-  };
+  resumeData: ResumeData;
+  coverLetterData: CoverLetterData;
 }
 
 const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
@@ -128,6 +106,54 @@ const ResumePreview = ({ resumeData, coverLetterData }: ResumePreviewProps) => {
                       ))}
                     </div>
                   </div>
+
+                  {/* Projects Section - Only show if projects exist */}
+                  {resumeData.projects && resumeData.projects.length > 0 && (
+                    <div>
+                      <h2 className="text-lg font-bold text-gray-800 mb-3">Projects</h2>
+                      <div className="space-y-4">
+                        {resumeData.projects.map((project, index) => (
+                          <div key={index} className="border-l-2 border-primary pl-4 pb-2">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <h3 className="font-bold text-gray-800">{project.title}</h3>
+                                <p className="text-sm text-gray-700">{project.description}</p>
+                              </div>
+                              {project.link && (
+                                <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline">
+                                  View Project
+                                </a>
+                              )}
+                            </div>
+                            {project.technologies.length > 0 && (
+                              <div className="flex flex-wrap gap-1 mt-2">
+                                {project.technologies.map((tech, i) => (
+                                  <span key={i} className="bg-gray-100 text-gray-600 text-xs py-0.5 px-2 rounded-full">
+                                    {tech}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Achievements Section - Only show if achievements exist */}
+                  {resumeData.achievements && resumeData.achievements.length > 0 && (
+                    <div>
+                      <h2 className="text-lg font-bold text-gray-800 mb-3">Achievements</h2>
+                      <div className="space-y-3">
+                        {resumeData.achievements.map((achievement, index) => (
+                          <div key={index} className="border-l-2 border-primary pl-4 pb-2">
+                            <h3 className="font-bold text-gray-800">{achievement.title}</h3>
+                            <p className="text-sm text-gray-700">{achievement.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
