@@ -30,12 +30,6 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        
-        <div className="mt-8 pt-6 text-center">
-          <p className="text-sm text-muted-foreground">
-            Created by the CareerForge Team
-          </p>
-        </div>
       </div>
     </footer>
   );
