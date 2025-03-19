@@ -72,7 +72,7 @@ const Navbar = () => {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-blur border-b border-gray-200/20 animate-fade-in">
+        <div className="md:hidden absolute top-full left-0 right-0 bg-blur border-b border-gray-200/20">
           <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
             <Link 
               to="/" 
