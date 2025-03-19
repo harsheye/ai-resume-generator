@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
-  const [isBlueBackground, setIsBlueBackground] = useState(false);
+  const [textColorOpacity, setTextColorOpacity] = useState(0);
 
   useEffect(() => {
     // Function to check if the background is in the blue phase
@@ -15,17 +15,41 @@ const Hero = () => {
       const timeInCycle = (Date.now() % interval) / interval;
       
       // When timeInCycle is roughly between 0.2 and 0.5, the gradient is in the blue phase
-      setIsBlueBackground(timeInCycle > 0.2 && timeInCycle < 0.5);
+      // Use value between 0 and 1 for smoother transition instead of boolean
+      if (timeInCycle > 0.2 && timeInCycle < 0.5) {
+        // Gradually increase opacity when entering blue phase
+        if (timeInCycle < 0.25) {
+          // First quarter of blue phase: transition in
+          const progress = (timeInCycle - 0.2) / 0.05; // normalize to 0-1 over 5% of cycle
+          setTextColorOpacity(Math.min(progress, 1));
+        } else if (timeInCycle > 0.45) {
+          // Last quarter of blue phase: transition out
+          const progress = (0.5 - timeInCycle) / 0.05; // normalize to 1-0 over 5% of cycle
+          setTextColorOpacity(Math.max(progress, 0));
+        } else {
+          // Middle of blue phase: fully transitioned
+          setTextColorOpacity(1);
+        }
+      } else {
+        // Outside blue phase
+        setTextColorOpacity(0);
+      }
     };
 
     // Initial check
     checkBackgroundColor();
     
     // Set up interval to check regularly
-    const intervalId = setInterval(checkBackgroundColor, 100);
+    const intervalId = setInterval(checkBackgroundColor, 50);
 
     return () => clearInterval(intervalId);
   }, []);
+
+  // Calculate the color based on opacity
+  const primaryColor = 'var(--primary)';
+  const textColor = textColorOpacity > 0 
+    ? `rgba(0, 0, 0, ${textColorOpacity})` 
+    : primaryColor;
 
   return (
     <section className="relative py-20 md:py-32 overflow-hidden animated-bg">
@@ -33,7 +57,7 @@ const Hero = () => {
         <div className="flex flex-col items-center text-center space-y-8 fade-in">
           <div className="space-y-4 max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-white">
-              Forge Your Career with <span className={`${isBlueBackground ? 'text-black' : 'text-primary'} transition-colors duration-300`}>AI-Engineered</span> Documents
+              Forge Your Career with <span style={{ color: textColor }} className="transition-colors duration-300">AI-Engineered</span> Documents
             </h1>
             
             <p className="text-xl text-white/80 mx-auto max-w-2xl">
