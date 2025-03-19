@@ -54,17 +54,6 @@ const Navbar = () => {
             >
               Generator
             </Link>
-            <Link 
-              to="/templates" 
-              className={`text-sm font-medium transition-colors hover:text-primary ${
-                location.pathname === '/templates' ? 'text-primary' : 'text-foreground/80'
-              }`}
-            >
-              Templates
-            </Link>
-            <Button asChild variant="ghost" className="text-sm font-medium">
-              <Link to="/pricing">Pricing</Link>
-            </Button>
             <Button asChild>
               <Link to="/generator">Get Started</Link>
             </Button>
@@ -100,20 +89,6 @@ const Navbar = () => {
               }`}
             >
               Generator
-            </Link>
-            <Link 
-              to="/templates" 
-              className={`py-2 text-sm font-medium transition-colors ${
-                location.pathname === '/templates' ? 'text-primary' : 'text-foreground/80'
-              }`}
-            >
-              Templates
-            </Link>
-            <Link 
-              to="/pricing" 
-              className="py-2 text-sm font-medium transition-colors text-foreground/80"
-            >
-              Pricing
             </Link>
             <Button asChild className="w-full mt-2">
               <Link to="/generator">Get Started</Link>
