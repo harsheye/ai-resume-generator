@@ -157,25 +157,42 @@
   }
 
   .animate-slide-from-left {
-    animation: slideFromLeft 0.8s ease-out forwards;
+    animation: slideFromLeft 1.2s ease-out forwards;
   }
 
   .animate-slide-from-right {
-    animation: slideFromRight 0.8s ease-out forwards;
+    animation: slideFromRight 1.2s ease-out forwards;
   }
 
   .animate-slide-from-bottom {
-    animation: slideFromBottom 0.8s ease-out forwards;
+    animation: slideFromBottom 1.2s ease-out forwards;
   }
 
   /* Simple fade animation */
   .fade-in {
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.8s ease-in-out;
   }
 
   @keyframes fadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+  }
+
+  /* Floating header animation - slowed down */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .float {
+    animation: float 8s ease-in-out infinite;
   }
 
   /* Custom scrollbar */

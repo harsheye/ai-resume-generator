@@ -52,7 +52,7 @@ const Hero = () => {
     : primaryColor;
 
   return (
-    <section className="relative py-16 md:py-28 overflow-hidden animated-bg">
+    <section className="relative h-screen flex items-center overflow-hidden animated-bg">
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col items-center text-center space-y-8 fade-in">
           <div className="space-y-4 max-w-3xl">

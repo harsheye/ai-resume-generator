@@ -86,9 +86,13 @@ interface FeatureCardProps {
 const FeatureCard = ({ icon, title, description, isVisible, animationClass }: FeatureCardProps) => {
   return (
     <div 
-      className={`bg-gray-50 dark:bg-gray-800 p-8 rounded-lg transform transition-all duration-500 hover:scale-105 hover:shadow-lg ${isVisible ? animationClass : 'opacity-0'}`}
+      className={`bg-gray-50 dark:bg-gray-800 p-8 rounded-lg 
+        transition-all duration-700 
+        hover:scale-105 hover:shadow-xl hover:bg-gray-100 dark:hover:bg-gray-700
+        ${isVisible ? animationClass : 'opacity-0'}`}
     >
-      <div className="rounded-full w-16 h-16 flex items-center justify-center bg-primary/10 mb-6 mx-auto">
+      <div className="rounded-full w-16 h-16 flex items-center justify-center bg-primary/10 mb-6 mx-auto
+        transition-transform duration-500 hover:scale-110">
         {icon}
       </div>
       <h3 className="text-xl font-medium mb-3">{title}</h3>
