@@ -20,8 +20,8 @@ const Generator = () => {
               Create Your <span className="text-gradient">ATS-Optimized</span> Resume
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Paste a job description below and our AI will generate a tailored resume
-              and cover letter to help you land more interviews.
+              Paste a job description or your existing resume, and our AI will generate tailored 
+              documents to help you land more interviews.
             </p>
           </div>
 

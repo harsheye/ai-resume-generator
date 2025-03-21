@@ -1,6 +1,4 @@
-
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,7 +8,12 @@ import { useToast } from "@/hooks/use-toast";
 import { ExperienceEntry, EducationEntry, ProjectEntry, AchievementEntry, UserInputData } from '@/utils/resumeGenerator';
 import { PlusCircle, Trash2, Briefcase, GraduationCap, FolderKanban, Trophy } from 'lucide-react';
 
-const UserInfoForm = ({ onSubmit }: { onSubmit: (userInput: UserInputData) => void }) => {
+interface UserInfoFormProps {
+  onSubmit: (userInput: UserInputData) => void;
+  initialData?: UserInputData | null;
+}
+
+const UserInfoForm = ({ onSubmit, initialData }: UserInfoFormProps) => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('personal');
   
@@ -42,6 +45,49 @@ const UserInfoForm = ({ onSubmit }: { onSubmit: (userInput: UserInputData) => vo
   const [achievements, setAchievements] = useState<AchievementEntry[]>([
     { title: '', description: '' }
   ]);
+
+  // Populate form with initial data if provided
+  useEffect(() => {
+    if (initialData) {
+      // Personal info
+      if (initialData.personalInfo) {
+        setName(initialData.personalInfo.name || '');
+        setEmail(initialData.personalInfo.email || '');
+        setPhone(initialData.personalInfo.phone || '');
+      }
+      
+      // Skills
+      if (initialData.skills && initialData.skills.length > 0) {
+        setSkills(initialData.skills);
+      }
+      
+      // Experience
+      if (initialData.experience && initialData.experience.length > 0) {
+        setExperiences(initialData.experience);
+      }
+      
+      // Education
+      if (initialData.education && initialData.education.length > 0) {
+        setEducation(initialData.education);
+      }
+      
+      // Projects
+      if (initialData.projects && initialData.projects.length > 0 && initialData.projects[0].title) {
+        setProjects(initialData.projects);
+      }
+      
+      // Achievements
+      if (initialData.achievements && initialData.achievements.length > 0 && initialData.achievements[0].title) {
+        setAchievements(initialData.achievements);
+      }
+      
+      // Show toast for success
+      toast({
+        title: "Form pre-filled",
+        description: "Your information has been loaded. You can review and edit it before submitting.",
+      });
+    }
+  }, [initialData, toast]);
 
   const addSkill = () => {
     if (newSkill.trim() === '') return;

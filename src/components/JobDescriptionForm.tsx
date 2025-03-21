@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { LoadingAnimation } from './LoadingAnimation';
-import { ArrowRight, Upload, ClipboardCopy, User } from 'lucide-react';
+import { ArrowRight, Upload, ClipboardCopy, User, Sparkles } from 'lucide-react';
 import UserInfoForm from './UserInfoForm';
 import { UserInputData } from '@/utils/resumeGenerator';
 
@@ -20,6 +20,8 @@ const JobDescriptionForm = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [activeTab, setActiveTab] = useState('job-info');
   const [userData, setUserData] = useState<UserInputData | null>(null);
+  const [userBio, setUserBio] = useState('');
+  const [isProcessingBio, setIsProcessingBio] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,6 +88,93 @@ const JobDescriptionForm = () => {
     
     // Move to next step
     handleSubmit(new Event('submit') as any);
+  };
+
+  const processBioWithAI = async () => {
+    if (!userBio.trim()) {
+      toast({
+        title: "Empty bio",
+        description: "Please enter your bio text before processing.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsProcessingBio(true);
+
+    try {
+      // In a real implementation, this would call your AI service
+      // For this demo, we'll use a simple parsing function to simulate AI extraction
+      const extractedData = simulateAIExtraction(userBio);
+      
+      // Set the extracted data to be passed to the UserInfoForm
+      setUserData(extractedData);
+      
+      toast({
+        title: "Bio processed successfully",
+        description: "Your information has been extracted and filled in the form.",
+      });
+    } catch (error) {
+      toast({
+        title: "Processing failed",
+        description: "Could not process your bio. Please fill the form manually.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessingBio(false);
+    }
+  };
+
+  // This function simulates AI extraction for the demo
+  // In a real implementation, this would be replaced with an actual AI call
+  const simulateAIExtraction = (text: string): UserInputData => {
+    // Simple regex-based extraction for demonstration purposes
+    const nameMatch = text.match(/(?:name is|name:|I am|I'm) ([A-Za-z\s]+)(?:,|\.|and)/i);
+    const emailMatch = text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/i);
+    const phoneMatch = text.match(/(\+?1?\s*\(?[0-9]{3}\)?[-.\s]?[0-9]{3}[-.\s]?[0-9]{4})/i);
+    
+    // Extract skills (words after "skills" or "experienced in" followed by a list)
+    const skillsText = text.match(/(?:skills include|skills:|experienced in|proficient in)(.*?)(?:\.|\n|$)/i);
+    const skills = skillsText 
+      ? skillsText[1].split(/,|;|\band\b/).map(skill => skill.trim()).filter(Boolean)
+      : [];
+    
+    // Extract experience (simple approach for demo)
+    const expMatches = text.match(/(?:worked at|work experience:|experience with) ([A-Za-z\s]+) (?:as|from|in) ([A-Za-z\s]+)/gi);
+    const experiences = expMatches 
+      ? expMatches.map(exp => {
+          const parts = exp.match(/(?:worked at|work experience:|experience with) ([A-Za-z\s]+) (?:as|from|in) ([A-Za-z\s]+)/i);
+          return parts ? {
+            company: parts[1].trim(),
+            title: parts[2].trim(),
+            date: "Extracted from bio",
+            description: ["Extracted from bio"]
+          } : null;
+        }).filter(Boolean)
+      : [{ title: '', company: '', date: '', description: [''] }];
+    
+    // Extract education
+    const eduMatch = text.match(/(?:studied at|graduated from|degree from|education:|attended) ([A-Za-z\s]+)/i);
+    const education = eduMatch 
+      ? [{
+          school: eduMatch[1].trim(),
+          degree: "Extracted from bio",
+          date: "Extracted from bio"
+        }]
+      : [{ degree: '', school: '', date: '' }];
+
+    return {
+      personalInfo: {
+        name: nameMatch ? nameMatch[1].trim() : '',
+        email: emailMatch ? emailMatch[0].trim() : '',
+        phone: phoneMatch ? phoneMatch[0].trim() : '',
+      },
+      skills: skills.length > 0 ? skills : [],
+      experience: experiences as any,
+      education: education,
+      projects: [{ title: '', description: '', technologies: [] }],
+      achievements: [{ title: '', description: '' }]
+    };
   };
 
   return (
@@ -177,7 +266,44 @@ const JobDescriptionForm = () => {
               </div>
             </div>
           ) : (
-            <UserInfoForm onSubmit={handleUserInfoSubmit} />
+            <>
+              <div className="mb-8 border-b pb-6">
+                <h3 className="text-lg font-medium mb-3">Quick Fill with AI</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Paste your bio or resume text below, and our AI will automatically extract your information
+                </p>
+                
+                <div className="space-y-4">
+                  <Textarea
+                    value={userBio}
+                    onChange={(e) => setUserBio(e.target.value)}
+                    placeholder="Paste your bio text here. Example: My name is John Doe, I'm a software engineer with 5 years of experience. My email is john@example.com and my phone number is (555) 123-4567. My skills include JavaScript, React, and Node.js..."
+                    className="min-h-[120px] text-sm"
+                  />
+                  
+                  <Button 
+                    onClick={processBioWithAI}
+                    disabled={isProcessingBio}
+                    className="w-full flex items-center justify-center gap-2"
+                    variant="secondary"
+                  >
+                    {isProcessingBio ? (
+                      <>
+                        <LoadingAnimation />
+                        <span>Processing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-4 w-4" />
+                        <span>Auto-Fill Form with AI</span>
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+              
+              <UserInfoForm onSubmit={handleUserInfoSubmit} initialData={userData} />
+            </>
           )}
         </TabsContent>
       </Tabs>
