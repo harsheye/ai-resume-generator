@@ -45,7 +45,7 @@ const Hero = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Calculate the color based on opacity
+  // Calculate the color based on opacity - starting from blue (primary) to black
   const primaryColor = 'var(--primary)';
   const textColor = textColorOpacity > 0 
     ? `rgba(0, 0, 0, ${textColorOpacity})` 
